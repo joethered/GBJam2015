@@ -12,9 +12,9 @@ GameObject:
   - 58: {fileID: 5871198}
   - 50: {fileID: 5017932}
   - 114: {fileID: 11453258}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: GrapplingHook
-  m_TagString: Untagged
+  m_TagString: GrappleHook
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -42,11 +42,11 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: .0500000007
   m_GravityScale: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
+  m_IsKinematic: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!58 &5871198
 CircleCollider2D:
   m_ObjectHideFlags: 1
@@ -71,6 +71,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acbe788e4179d7e42837633c4325798d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  chainLink: {fileID: 0}
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 0
+  maxLength: 1
 --- !u!212 &21225262
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -93,7 +98,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 461146513
+  m_SortingLayerID: -1563012011
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300002, guid: d7c7c650849ba284791bf08c7cf8e38f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -103,7 +108,31 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: m_IsKinematic
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Constraints
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Interpolate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_TagString
+      value: GrappleHook
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_SortingLayerID
+      value: -1563012011
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 102480}

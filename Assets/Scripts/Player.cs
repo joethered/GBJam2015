@@ -9,21 +9,24 @@ public class Player : MonoBehaviour {
 
 	public GameObject grapplingHook;
 	public float maxSpeed = 1f;
-	public int rot = 0;
+	private int rot = 0;
 	public bool grounded = false;
 	public Transform downCheck;
 	public Transform upCheck;
 	public Transform leftCheck;
 	public Transform rightCheck;
+	public Transform hookHand;
 	public float groundRadius = 0.1f;
+	
 
 
 	public bool flipped = false;
+	private int aim = 0;
 
 	public LayerMask whatIsGround;
 
 	private Rigidbody2D rb2D;
-
+	private bool aHeld = false;
 
 	// Use this for initialization
 	void Start () {
@@ -38,7 +41,7 @@ public class Player : MonoBehaviour {
 		bool upCol = Physics2D.OverlapCircle (upCheck.position, groundRadius, whatIsGround);
 		bool leftCol = Physics2D.OverlapCircle (leftCheck.position, groundRadius, whatIsGround);
 		bool rightCol = Physics2D.OverlapCircle (rightCheck.position, groundRadius, whatIsGround);
-		Debug.Log (downCol.ToString() + upCol.ToString() + leftCol.ToString() + rightCol.ToString());
+		//Debug.Log (downCol.ToString() + upCol.ToString() + leftCol.ToString() + rightCol.ToString());
 
 
 		bool nextGroundState = (downCol || upCol || leftCol || rightCol);
@@ -48,20 +51,32 @@ public class Player : MonoBehaviour {
 
 		if (!grounded) {
 			if (inputX < 0){
+				if (flipped)
+					flip ();
 				rot = 180;
 				transform.eulerAngles = new Vector3(0,0,rot);
+				aim = 180;
 			}
 			if (inputX > 0){
+				if (flipped)
+					flip ();
 				rot = 0;
 				transform.eulerAngles = new Vector3(0,0,rot);
+				aim = 0;
 			}
 			if (inputY < 0){
+				if (flipped)
+					flip ();
 				rot = 270;
 				transform.eulerAngles = new Vector3(0,0,rot);
+				aim = 270;
 			}
 			if (inputY > 0){
+				if (flipped)
+					flip ();
 				rot = 90;
 				transform.eulerAngles = new Vector3(0,0,rot);
+				aim = 90;
 			}
 
 
@@ -76,12 +91,15 @@ public class Player : MonoBehaviour {
 			}
 
 
-
-			if (Input.GetAxis("AButton") > 0 && GameObject.Find("GrapplingHook") != null){
+			Debug.Log (GameObject.Find("GrapplingHook"));
+			if (Input.GetAxis("AButton") > 0 && GameObject.Find("GrapplingHook") == null){
+				aHeld = true;
 				GameObject toInstantiate = grapplingHook;
-				GameObject instance = Instantiate(toInstantiate, new Vector3(transform.position.x, transform.position.y, 0f), Quaternion.identity) as GameObject;
-				GrapplingHook gHook = instance.GetComponent<GrapplingHook>();
-				gHook.setVelocity(rb2D.velocity.x + 1, rb2D.velocity.y);
+				//Debug.Log (grapplingHook);
+				GameObject hookInstance = Instantiate(toInstantiate, hookHand.transform.position, Quaternion.identity) as GameObject;
+				Physics2D.IgnoreCollision(hookInstance.GetComponent<BoxCollider2D>(), GetComponent<BoxCollider2D>());
+				Rigidbody2D hookRb = hookInstance.GetComponent<Rigidbody2D>();
+				hookRb.velocity = new Vector2(rb2D.velocity.x + 1, rb2D.velocity.y);
 			}
 
 
@@ -98,34 +116,82 @@ public class Player : MonoBehaviour {
 		grounded = nextGroundState;
 
 		if (grounded) {
-			switch (rot){
-			case 0:
-				rb2D.velocity = new Vector2 (inputX * maxSpeed, rb2D.velocity.y);
-				if (Input.GetAxis("AButton") > 0)
-					rb2D.velocity = new Vector2 (0, 0.5f);
-				break;
-			case 180:
-				rb2D.velocity = new Vector2 (inputX * maxSpeed, rb2D.velocity.y);
-				if (Input.GetAxis("AButton") > 0)
-					rb2D.velocity = new Vector2 (0, -0.5f);
-				break;
-			case 90:
-				rb2D.velocity = new Vector2 (rb2D.velocity.x, inputY * maxSpeed);
-				if (Input.GetAxis("AButton") > 0)
-					rb2D.velocity = new Vector2 (-0.5f, 0);
-				break;
-			case 270:
-				rb2D.velocity = new Vector2 (rb2D.velocity.x, inputY * maxSpeed);
-				if (Input.GetAxis("AButton") > 0)
-					rb2D.velocity = new Vector2 (0.5f, 0);
-				break;
+			if (!aHeld){
+				switch (rot){
+				case 0:
+					rb2D.velocity = new Vector2 (inputX * maxSpeed, rb2D.velocity.y);
+					if (inputX < 0 && !flipped){
+						flip ();
+						aim = 180;
+					}else if (inputX > 0 && flipped){
+						flip ();
+						aim = rot;
+					}
+					if (Input.GetAxis("AButton") > 0){
+						rb2D.velocity = new Vector2 (0, 0.5f);
+						aHeld = true;
+					}
+					break;
+				case 180:
+					rb2D.velocity = new Vector2 (inputX * maxSpeed, rb2D.velocity.y);
+					if (inputX < 0 && flipped){
+						flip ();
+						aim = rot;
+					}else if (inputX > 0 && !flipped){
+						flip ();
+						aim = 0;
+					}
+					if (Input.GetAxis("AButton") > 0){
+						rb2D.velocity = new Vector2 (0, -0.5f);
+						aHeld = true;
+					}
+					break;
+				case 90:
+					rb2D.velocity = new Vector2 (rb2D.velocity.x, inputY * maxSpeed);
+					if (inputY < 0 && !flipped){
+						flip ();
+						aim = rot;
+					}else if (inputY > 0 && flipped){
+						flip ();
+						aim = 270;
+					}
+					if (Input.GetAxis("AButton") > 0){
+						rb2D.velocity = new Vector2 (-0.5f, 0);
+						aHeld = true;
+					}
+					break;
+				case 270:
+					rb2D.velocity = new Vector2 (rb2D.velocity.x, inputY * maxSpeed);
+					if (inputY < 0 && flipped){
+						flip ();
+						aim = 90;
+					}else if (inputY > 0 && !flipped){
+						flip ();
+						aim = rot;
+					}
+					if (Input.GetAxis("AButton") > 0){
+						rb2D.velocity = new Vector2 (0.5f, 0);
+						aHeld = true;
+					}
+					break;
+				}
 			}
 		}
+
+		if (Input.GetAxis("AButton") <= 0){
+			aHeld = false;
+		}
+
 	}
 
-	void Flip(){
-
+	void flip(){
+		flipped = !flipped;
+		Vector3 theScale = transform.localScale;
+		theScale.x *= -1;
+		transform.localScale = theScale;
 	}
+
+
 
 	private void latchToWall(bool upCol, bool leftCol, bool rightCol){
 		if (upCol) {

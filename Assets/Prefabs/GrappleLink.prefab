@@ -9,9 +9,9 @@ GameObject:
   m_Component:
   - 4: {fileID: 401438}
   - 212: {fileID: 21204032}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: GrappleLink
-  m_TagString: Untagged
+  m_TagString: GrappleLink
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -50,7 +50,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
+  m_SortingLayerID: 461146513
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: d7c7c650849ba284791bf08c7cf8e38f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -60,7 +60,19 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: m_SortingLayerID
+      value: 461146513
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_TagString
+      value: GrappleLink
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 192590}

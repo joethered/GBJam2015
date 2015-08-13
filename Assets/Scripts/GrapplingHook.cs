@@ -9,13 +9,15 @@ public class GrapplingHook : MonoBehaviour {
 	List<GameObject> links;
 	bool latched = false;
 	public LayerMask whatIsGround;
-	Rigidbody2D rb2D;
+
 	int extend = 0;
 	public float maxLength = 1f;
 	float length = 0f;
 
+	private Rigidbody2D rb2D;
+
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 		rb2D = GetComponent<Rigidbody2D> ();
 	}
 	
@@ -25,6 +27,7 @@ public class GrapplingHook : MonoBehaviour {
 	}
 
 	public void setVelocity(float xVel, float yVel){
+		Debug.Log (rb2D);
 		rb2D.velocity = new Vector2 (xVel, yVel);
 	}
 
