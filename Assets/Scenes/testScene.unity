@@ -445,7 +445,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Size: {x: .100000001, y: .200000003}
+  m_Size: {x: .100000001, y: .209999993}
 --- !u!50 &2142313251
 Rigidbody2D:
   serializedVersion: 2
@@ -460,7 +460,7 @@ Rigidbody2D:
   m_IsKinematic: 0
   m_Interpolate: 1
   m_SleepingMode: 1
-  m_CollisionDetection: 1
+  m_CollisionDetection: 0
   m_Constraints: 4
 --- !u!212 &2142313252
 SpriteRenderer:
@@ -522,6 +522,6 @@ CircleCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
-  m_Offset: {x: 0, y: -.0599999987}
+  m_Offset: {x: 0, y: -.056499999}
   serializedVersion: 2
   m_Radius: .0500000007
