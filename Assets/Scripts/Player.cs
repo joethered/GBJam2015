@@ -21,7 +21,7 @@ public class Player : MonoBehaviour {
 
 
 	public bool flipped = false;
-	private int aim = 0;
+	public int aim = 0;
 
 	public LayerMask whatIsGround;
 
@@ -92,15 +92,13 @@ public class Player : MonoBehaviour {
 			}
 
 
-			Debug.Log (GameObject.Find("GrapplingHook"));
 			if (!aHeld && Input.GetAxis("AButton") > 0 && hookInstance == null){
 				aHeld = true;
 				GameObject toInstantiate = grapplingHook;
 				//Debug.Log (grapplingHook);
 				hookInstance = Instantiate(toInstantiate, hookHand.transform.position, Quaternion.identity) as GameObject;
 				Physics2D.IgnoreCollision(hookInstance.GetComponent<BoxCollider2D>(), GetComponent<BoxCollider2D>());
-				Rigidbody2D hookRb = hookInstance.GetComponent<Rigidbody2D>();
-				hookRb.velocity = new Vector2(rb2D.velocity.x + 1, rb2D.velocity.y);
+
 			}
 
 

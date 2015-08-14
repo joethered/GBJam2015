@@ -509,6 +509,7 @@ MonoBehaviour:
   hookHand: {fileID: 840104649}
   groundRadius: .0500000007
   flipped: 0
+  aim: 0
   whatIsGround:
     serializedVersion: 2
     m_Bits: 512
