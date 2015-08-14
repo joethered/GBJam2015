@@ -27,6 +27,7 @@ public class Player : MonoBehaviour {
 
 	private Rigidbody2D rb2D;
 	private bool aHeld = false;
+	private GameObject hookInstance;
 
 	// Use this for initialization
 	void Start () {
@@ -92,11 +93,11 @@ public class Player : MonoBehaviour {
 
 
 			Debug.Log (GameObject.Find("GrapplingHook"));
-			if (Input.GetAxis("AButton") > 0 && GameObject.Find("GrapplingHook") == null){
+			if (!aHeld && Input.GetAxis("AButton") > 0 && hookInstance == null){
 				aHeld = true;
 				GameObject toInstantiate = grapplingHook;
 				//Debug.Log (grapplingHook);
-				GameObject hookInstance = Instantiate(toInstantiate, hookHand.transform.position, Quaternion.identity) as GameObject;
+				hookInstance = Instantiate(toInstantiate, hookHand.transform.position, Quaternion.identity) as GameObject;
 				Physics2D.IgnoreCollision(hookInstance.GetComponent<BoxCollider2D>(), GetComponent<BoxCollider2D>());
 				Rigidbody2D hookRb = hookInstance.GetComponent<Rigidbody2D>();
 				hookRb.velocity = new Vector2(rb2D.velocity.x + 1, rb2D.velocity.y);
