@@ -32,16 +32,19 @@ public class GrapplingHook : MonoBehaviour {
 		switch (playerScript.aim) {
 		case 0:
 			rb2D.velocity = new Vector2 (extendSpeed, rb2D.velocity.y);
-
+			transform.eulerAngles = new Vector3(0,0,0);
 			break;
 		case 90:
 			rb2D.velocity = new Vector2 (rb2D.velocity.x, extendSpeed);
+			transform.eulerAngles = new Vector3(0,0,90);
 			break;
 		case 180:
 			rb2D.velocity = new Vector2 (-extendSpeed, rb2D.velocity.y);
+			transform.eulerAngles = new Vector3(0,0,180);
 			break;
 		case 270:
 			rb2D.velocity = new Vector2 (rb2D.velocity.x, -extendSpeed);
+			transform.eulerAngles = new Vector3(0,0,270);
 			break;
 		}
 
@@ -54,7 +57,7 @@ public class GrapplingHook : MonoBehaviour {
 		if ((length >= maxLength && extend == 1) || playerScript.grounded) {
 			extend = -1;
 		}
-
+		//Debug.Log(extend);
 		if (extend == -1) {
 			if (length < 0.08f){
 				Destroy(gameObject);
@@ -62,25 +65,30 @@ public class GrapplingHook : MonoBehaviour {
 			transform.position = Vector3.MoveTowards(transform.position, player.transform.position,retractSpeed);
 		}
 
-		CircleCollider2D collider = GetComponent<CircleCollider2D> ();
-		if (extend != 0 && collider.IsTouchingLayers(9)){
+		BoxCollider2D collider = GetComponent<BoxCollider2D> ();
+		if (extend != 0 && collider.IsTouchingLayers() && !playerScript.grounded){
 			latchPoint = transform.position;
 			extend = 0;
 			lockedLength = length;
-			Debug.Log("hi");
 		}
 
 		if (extend == 0) {
 			transform.position = latchPoint;
-			Debug.Log (latchPoint);
-			if (length > lockedLength){
-				Rigidbody2D prb2D = player.GetComponent<Rigidbody2D>();
-				Vector2 force = new Vector2(player.transform.position.x - latchPoint.x, 
-				                            player.transform.position.y - latchPoint.y);
-				float velMag = rb2D.velocity.magnitude;
-				force.Normalize();
-				force *= velMag;
-				prb2D.AddForce(force);
+			//Debug.Log("latchPoint: " + latchPoint.x);
+			Rigidbody2D prb2D = player.GetComponent<Rigidbody2D>();
+
+			Vector2 nextPos = (Vector2)player.transform.position + (Vector2)prb2D.velocity * Time.deltaTime;
+			//Debug.Log ("player: " + player.transform.position.x + "   nextPos: " + nextPos.x + "   vel: " + 
+			//           prb2D.velocity.x + ", " + prb2D.velocity.y  + "    dt: " + Time.deltaTime);
+			float nextLength = Vector2.Distance (nextPos, latchPoint);
+			//Debug.Log ("nextLength: " + nextLength + "   lockedLength: " + lockedLength);
+			if (nextLength > lockedLength){
+				//Debug.Log("pos diff: " + (nextPos - latchPoint).x + "   " + (nextPos - latchPoint).normalized.x);
+				nextPos = (nextPos - latchPoint).normalized * lockedLength + latchPoint;
+				//Debug.Log("nextPos: " + nextPos.x);
+				prb2D.velocity = ((Vector2)nextPos - (Vector2)player.transform.position) / Time.deltaTime;
+
+				
 			}
 		}
 

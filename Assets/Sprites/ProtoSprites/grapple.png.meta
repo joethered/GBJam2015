@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: d7c7c650849ba284791bf08c7cf8e38f
-timeCreated: 1439435064
+timeCreated: 1439648118
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -60,22 +60,12 @@ TextureImporter:
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: grapple_1
       rect:
         serializedVersion: 2
         x: 8
-        y: 0
-        width: 8
-        height: 8
-      alignment: 0
-      pivot: {x: .5, y: .5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: grapple_2
-      rect:
-        serializedVersion: 2
-        x: 16
         y: 0
         width: 8
         height: 8

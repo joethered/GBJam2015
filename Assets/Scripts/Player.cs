@@ -127,7 +127,7 @@ public class Player : MonoBehaviour {
 						aim = rot;
 					}
 					if (Input.GetAxis("AButton") > 0){
-						rb2D.velocity = new Vector2 (0, 0.5f);
+						rb2D.velocity = new Vector2 (0, 1f);
 						aHeld = true;
 					}
 					break;
@@ -141,7 +141,7 @@ public class Player : MonoBehaviour {
 						aim = 0;
 					}
 					if (Input.GetAxis("AButton") > 0){
-						rb2D.velocity = new Vector2 (0, -0.5f);
+						rb2D.velocity = new Vector2 (0, -1f);
 						aHeld = true;
 					}
 					break;
@@ -155,7 +155,7 @@ public class Player : MonoBehaviour {
 						aim = 270;
 					}
 					if (Input.GetAxis("AButton") > 0){
-						rb2D.velocity = new Vector2 (-0.5f, 0);
+						rb2D.velocity = new Vector2 (-1f, 0);
 						aHeld = true;
 					}
 					break;
@@ -169,7 +169,7 @@ public class Player : MonoBehaviour {
 						aim = rot;
 					}
 					if (Input.GetAxis("AButton") > 0){
-						rb2D.velocity = new Vector2 (0.5f, 0);
+						rb2D.velocity = new Vector2 (1f, 0);
 						aHeld = true;
 					}
 					break;
